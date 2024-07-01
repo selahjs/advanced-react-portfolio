@@ -31,47 +31,24 @@ const ContactMeSection = () => {
     onSubmit: async (values, actions) => {
       const res = await submit(values);
       if (res.type === "success") {
-        onOpen({
-          title: "Success",
-          message: `Thank you, ${values.firstName}. Your message has been sent.`,
-          type: "success",
-        });
+        onOpen(
+          "success",
+          `Thank you, ${values.firstName}. Your message has been sent.`
+        );
         actions.resetForm();
       } else {
-        onOpen({
-          title: "Error",
-          message: res.message,
-          type: "error",
-        });
+        onOpen("error", res.message);
       }
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Name is required"),
-      email: Yup.string().email("Invalid email address").required("Email is required"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
       type: Yup.string().required("Type of enquiry is required"),
       comment: Yup.string().required("Message is required"),
     }),
   });
-
-  useEffect(() => {
-    if (response) {
-      const message =
-        response.type === "success"
-          ? `Thank you, ${formik.values.firstName}. Your message has been sent.`
-          : response.message;
-
-      onOpen({
-        title: response.type === "success" ? "Success" : "Error",
-        message: message,
-        type: response.type,
-      });
-
-      if (response.type === "success") {
-        formik.resetForm();
-      }
-    }
-  }, [response, formik.values.firstName, onOpen]);
-  
 
   return (
     <FullScreenSection
@@ -116,7 +93,9 @@ const ContactMeSection = () => {
                 <FormLabel htmlFor="type">Type of enquiry</FormLabel>
                 <Select id="type" name="type" {...formik.getFieldProps("type")}>
                   <option value="hireMe">Freelance project proposal</option>
-                  <option value="openSource">Open source consultancy session</option>
+                  <option value="openSource">
+                    Open source consultancy session
+                  </option>
                   <option value="other">Other</option>
                 </Select>
                 <FormErrorMessage>{formik.errors.type}</FormErrorMessage>
@@ -133,7 +112,12 @@ const ContactMeSection = () => {
                 />
                 <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
-              <Button type="submit" colorScheme="purple" width="full" isLoading={isLoading}>
+              <Button
+                type="submit"
+                colorScheme="purple"
+                width="full"
+                isLoading={isLoading}
+              >
                 Submit
               </Button>
             </VStack>
