@@ -23,7 +23,7 @@ const Card = ({ title, description, imageSrc }) => {
           <Text fontSize="sm" fontWeight="bold">
             Learn more
           </Text>
-          <FontAwesomeIcon icon={faArrowRight} size="sm" />
+          <FontAwesomeIcon icon={faArrowRight} size="1x" />
         </HStack>
       </VStack>
     </Box>
